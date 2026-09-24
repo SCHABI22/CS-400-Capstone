@@ -8,3 +8,4 @@ def main() -> None:
 
 if __name__ == "__main__":
 	main()
+	advisor(0, 0, 0, 0, detectCards(), detectCards())
