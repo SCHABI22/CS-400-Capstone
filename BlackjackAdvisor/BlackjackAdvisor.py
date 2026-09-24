@@ -28,7 +28,7 @@ def returnValues(playerCards, dealerCards):
 
     for d in dealerCards:
         if p <= 10:
-            dealervalue += d
+            dealerValue += d
         else:
             if d < 14:
                 dealerValue += 10
@@ -58,19 +58,56 @@ def detectBust(playerValue, dealerValue):
 
     return 1
 
-#
-def detectDoubles(playerCards, dealerCards):
+# Used to find doubles that can be split by the player. Returns a list of all doubles the player has
+def detectDoubles(playerCards):
     for i in playerCards:
         for z in playerCards:
             if (i == z) and (playerCards.index(i) != playerCards.index(z)):
                 playerDoubles.append(i)
+    return playerDoubles
 
-# 
+# Main advisor function, returns player and dealer values, and players best move
 def advisor(playerValue, dealerValue, playerLowAce, dealerLowAce, playerCards, dealerCards):
+    returnValues(playerCards, dealerCards)
+    detectBust(playerValue, dealerValue)
+    detectDoubles(playerCards)
 
-    if playerValue == 0:
-        return "testing 1"
-                
+    if playerValue == 21:
+        return playerValue, dealerValue, "Blackjack!"
+    if playerLowAce == 21:
+        return playerValue, dealerValue, "Blackjack!"
+    if playerValue > 21:
+        return playerValue, dealerValue, "Bust!"
+    if playerLowAce > 21:
+        return playerValue, dealerValue, "Bust!"
+
+    if (playerValue >= 17) and (dealerValue <= 6):
+        return playerValue, dealerValue, "Stand"
+    if (playerLowAce >= 17) and (dealerLowAce <= 6):
+        return playerValue, dealerValue, "Stand"
+    if (playerValue >= 12) and (dealerValue <= 3):
+        return playerValue, dealerValue, "Stand"
+    if (playerLowAce >= 12) and (dealerLowAce <= 3):
+        return playerValue, dealerValue, "Stand"
+
+    if (playerDoubles != []) and (dealerValue <= 7):
+        return playerValue, dealerValue, "Split"
+    
+    if (playerDoubles != []) and (dealerLowAce <= 7):
+        return playerValue, dealerValue, "Split"
+
+    if (playerDoubles != []) and (dealerLowAce == 8):
+        return playerValue, dealerValue, "Split"
+
+    if (playerDoubles != []) and (dealerLowAce == 9):
+        return playerValue, dealerValue, "Split"
+
+    if (playerDoubles != []) and (dealerLowAce == 10):
+        return playerValue, dealerValue, "Split"
+
+    else:
+        return playerValue, dealerValue, "Hit"
+    
     
 
 
