@@ -68,7 +68,8 @@ def detectDoubles(playerCards, dealerCards):
 # 
 def advisor(playerValue, dealerValue, playerLowAce, dealerLowAce, playerCards, dealerCards):
 
-    if playerValue 
+    if playerValue == 0:
+        return "testing 1"
                 
     
 
