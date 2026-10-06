@@ -9,11 +9,33 @@
 # https://github.com/docker/awesome-compose
 services:
   server:
+    profiles:
+      - blackjack
     build:
       context: ..
       dockerfile: Docker/Dockerfile
     ports:
       - 8000:8000
+  label-studio:
+    image: heartexlabs/label-studio:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ../mydata:/label-studio/data
+  trainer:
+    profiles:
+      - training
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+    working_dir: /app/PlayingCardsDetection
+    entrypoint: ["yolo"]
+    command: ["--help"]
+    environment:
+      YOLO_CONFIG_DIR: /tmp/Ultralytics
+    volumes:
+      - ../PlayingCardsDetection/dataset:/app/PlayingCardsDetection/dataset
+      - ../PlayingCardsDetection/runs:/app/PlayingCardsDetection/runs
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

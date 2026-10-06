@@ -1,0 +1,7 @@
+**/.git
+**/__pycache__
+**/.venv
+**/.pytest_cache
+PlayingCardsDetection/dataset
+PlayingCardsDetection/runs
+mydata
