@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets
+.env
+
+# Label Studio data (each person keeps their own copy)
+mydata/
+
+# Training data and outputs
+PlayingCardsDetection/dataset/
+runs/
+*.pt
+*.cache
