@@ -1,0 +1,40 @@
+import cv2
+import os
+
+left_dir = "split_results/left_side"
+right_dir = "split_results/right_side"
+os.makedirs(left_dir, exist_ok=True)
+os.makedirs(right_dir, exist_ok=True)
+
+video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+if not video.isOpened():
+    print("Error: Could not open video.")
+    exit()
+
+frame_counter = 0
+
+while True:
+    ret, frame = video.read()
+
+    if not ret:
+        print("Error: Could not read frame.")
+        break
+
+    height, width, channels = frame.shape
+    midpoint = width // 2
+
+    left_half = frame[0:height, 0:midpoint]
+    right_half = frame[0:height, midpoint:width]
+
+    cv2.imshow("Full Live Feed", frame)
+    cv2.imshow("Left Side", left_half)
+    cv2.imshow("Right Side", right_half)
+    
+    frame_counter += 1
+
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+video.release()
+cv2.destroyAllWindows()
