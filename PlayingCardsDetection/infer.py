@@ -1,4 +1,8 @@
+from pathlib import Path
+
 from ultralytics import YOLO
+
+DATA_YAML = Path(__file__).parent / "data_config" / "playing_cards.yaml"
 
 # Load a model
 model = YOLO("yolov8n.yaml")  # build a new model from scratch
@@ -17,9 +21,9 @@ model.train(
 )'''
 
 # Use the model
-results = model.train(data="PlayingCardsDetection/data_config/playing_cards.yaml", epochs=3)  # train the model
+results = model.train(data=str(DATA_YAML), epochs=3)  # train the model
 # results = model.val()  # evaluate model performance on the validation set
 #results = model("./assets/test.jpg")  # predict on an image
 # success = YOLO("yolov8n.pt").export(format="onnx")  # export a model to ONNX format
-print([x for x in results])
+print(results.results_dict)  # precision, recall, mAP50, mAP50-95
 print("End Run")
