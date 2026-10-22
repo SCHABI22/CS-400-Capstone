@@ -1,6 +1,7 @@
-# No 'path:' key, so Ultralytics resolves these relative to this file (works on any machine)
-train: ../../Dataset/archive/images/train # labels in Dataset/archive/labels/train
-val: ../../Dataset/archive/images/val # labels in Dataset/archive/labels/val
+path: ./dataset/archive 
+train: train/images # dataset root dir
+val: valid/images # train images (relative to 'path')
+test: test/images # val images (relative to 'path')
 
 # Classes
 names: 
