@@ -159,4 +159,3 @@ def advisor(playerCards, dealerUpCard):
     
 
 
-

@@ -11,6 +11,7 @@ venv/
 mydata/
 
 # Training data and outputs
+/Dataset/
 PlayingCardsDetection/dataset/
 runs/
 *.pt
