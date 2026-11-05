@@ -12,11 +12,14 @@ def loadModel():
         _model = YOLO(str(WEIGHTS))
     return _model
 
-def detectCards(image, confidence=0.5):
+def detectCardsLabeled(image, confidence=0.5):
     result = loadModel()(image, conf=confidence, verbose=False)[0]
     cards = []
     for classId in result.boxes.cls.tolist():
         name = result.names[int(classId)]
         if name not in cards:
             cards.append(name)
-    return cards
+    return cards, result.plot()
+
+def detectCards(image, confidence=0.5):
+    return detectCardsLabeled(image, confidence)[0]

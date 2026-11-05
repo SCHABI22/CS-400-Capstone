@@ -29,9 +29,8 @@ def camRunning():
     left_half = frame[0:height, 0:midpoint]
     right_half = frame[0:height, midpoint:width]
 
-    cv2.imshow("Full Live Feed", frame)
-    cv2.imshow("Left Side", left_half)
-    cv2.imshow("Right Side", right_half)
+    # cv2.imshow("Left Side", left_half)
+    # cv2.imshow("Right Side", right_half)
     
     frame_counter += 1
 
@@ -41,3 +40,6 @@ def camRunning():
     video.release()
     cv2.destroyAllWindows()
     return left_half, right_half
+
+def liveFeed():
+    cv2.imshow("Full Live Feed", frame)
