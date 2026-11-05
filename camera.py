@@ -32,7 +32,7 @@ def camRunning():
     cv2.imshow("Full Live Feed", frame)
     cv2.imshow("Left Side", left_half)
     cv2.imshow("Right Side", right_half)
-    
+
     frame_counter += 1
 
     if cv2.waitKey(1) == ord('q'):
