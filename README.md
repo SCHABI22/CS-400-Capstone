@@ -1,0 +1,1 @@
+Wabash College CS-400 Senior Capstone project. Blackjack advisor using object detection to detect both the player's and dealer's cards and return the appropriate move for the player. Based on a single deck. 
