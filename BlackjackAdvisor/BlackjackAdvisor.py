@@ -43,9 +43,9 @@ def detectDoubles(cards):
 # Main advisor function, returns player and dealer values, and players best move
 def advisor(playerCards, dealerUpCard):
 
-    # Check if lists are empty, if so rise exception
+    # Check if lists are empty, if so return None for both totals and a message indicating no cards were detected
     if playerCards == [] or dealerUpCard == []:
-        raise ValueError("Player cards or dealer up card list is empty")
+        return None, None, "No Cards Detected"
 
     total, soft = handTotal(playerCards)
     pair = cardValue(playerCards[0])

@@ -8,14 +8,15 @@ def main() -> None:
 	print("Blackjack Advisor is ready.")
 
 # create new camera function to run camera indefinetly for user, change camera detection to not display images, add diagnostic checks
-# create new camera function to run camera indefinetly for user, change camera detection to not display images, add diagnostic checks
 def run():
 		playerSide, dealerSide = camRunning()
 		print("Player Side Cards Detected: ", detectCards(playerSide))
+
 		playerCard = []
 		for card in detectCards(playerSide):
 			playerCard.append(labelToCard(card))
 		print("Player Side Card Values: ", playerCard)
+
 		dealerCard = []
 		for card in detectCards(dealerSide):
 			dealerCard.append(labelToCard(card))
@@ -38,6 +39,3 @@ if __name__ == "__main__":
 			total, dealerTotal, move = result
 			print(f"Player: {total}  Dealer: {dealerTotal}  Move: {move}")
 			lastResult = result
-
-		if cv2.waitKey(1) == ord('q'):
-				running = False
