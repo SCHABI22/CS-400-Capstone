@@ -1,41 +1,41 @@
 import cv2
 from BlackjackAdvisor.BlackjackAdvisor import advisor, labelToCard
 from PlayingCardsDetection.infer import detectCards, detectCardsLabeled
-from camera import camRunning, liveFeed
-
-
-def main() -> None:
-	print("Blackjack Advisor is ready.")
+from camera import Camera
 
 # create new camera function to run camera indefinetly for user, change camera detection to not display images, add diagnostic checks
-def run():
-		playerSide, dealerSide = camRunning()
-		print("Player Side Cards Detected: ", detectCards(playerSide))
+def run(frame):
+		playerLabels, dealerLabels, labeledFrame = detectCardsLabeled(frame)
+		midpoint = frame.shape[1] // 2
+		cv2.line(labeledFrame, (midpoint, 0), (midpoint, frame.shape[0]), (255, 255, 255), 1)
+		cv2.imshow("Blackjack Advisor", labeledFrame)
 
-		playerCard = []
-		for card in detectCards(playerSide):
-			playerCard.append(labelToCard(card))
-		print("Player Side Card Values: ", playerCard)
-
-		dealerCard = []
-		for card in detectCards(dealerSide):
-			dealerCard.append(labelToCard(card))
-		print("Dealer Side Card Values: ", dealerCard)
+		playerCard = [labelToCard(card) for card in playerLabels]
+		dealerCard = [labelToCard(card) for card in dealerLabels]
 
 		if playerCard == [] or dealerCard == []:
-			print("Error: No cards detected on one or both sides. Please ensure the cards are clearly visible and try again.")
-			return
-		return advisor(playerCard, dealerCard)
+			return None
+		
+		return advisor(playerCard, dealerCard[0])
 
 running = True
 
-
-if __name__ == "__main__":
-	main()
+def main() -> None:
+	camera = Camera()
+	print("Blackjack Advisor is ready. Press 'q' to quit.")
 	lastResult = None
-	while running == True:
-		result = run()
+	while True:
+		result = run(camera.read())
 		if result is not None and result != lastResult:
 			total, dealerTotal, move = result
 			print(f"Player: {total}  Dealer: {dealerTotal}  Move: {move}")
 			lastResult = result
+
+		if cv2.waitKey(1) == ord('q'):
+			break
+
+	camera.release()
+
+if __name__ == "__main__":
+	main()
+	

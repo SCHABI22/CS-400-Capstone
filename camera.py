@@ -1,45 +1,22 @@
 #Needs to be converted to OOP
 import cv2
-import os
 
+class Camera:
+    def __init__(self, index=0):
+        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+        if not self.video.isOpened():
+            raise Exception("Error: Could not open video.")
+        self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        for _ in range(10):
+            self.video.read()
 
-def camRunning():
-    left_dir = "split_results/left_side"
-    right_dir = "split_results/right_side"
-    os.makedirs(left_dir, exist_ok=True)
-    os.makedirs(right_dir, exist_ok=True)
+    def read(self):
+        ret, frame = self.video.read()
+        if not ret:
+            raise Exception("Error: Could not read frame.")
+        return frame
 
-    video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-
-    if not video.isOpened():
-        print("Error: Could not open video.")
-        exit()
-
-    frame_counter = 0
-
-    ret, frame = video.read()
-
-    if not ret:
-        print("Error: Could not read frame.")
-        exit()
-
-    height, width, channels = frame.shape
-    midpoint = width // 2
-
-    left_half = frame[0:height, 0:midpoint]
-    right_half = frame[0:height, midpoint:width]
-
-    # cv2.imshow("Left Side", left_half)
-    # cv2.imshow("Right Side", right_half)
-    
-    frame_counter += 1
-
-    if cv2.waitKey(1) == ord('q'):
-        exit()
-
-    video.release()
-    cv2.destroyAllWindows()
-    return left_half, right_half
-
-def liveFeed():
-    cv2.imshow("Full Live Feed", frame)
+    def release(self):
+        self.video.release()
+        cv2.destroyAllWindows()
